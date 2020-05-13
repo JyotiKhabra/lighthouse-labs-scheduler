@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import "components/Appointment/styles.scss";
 import Show from "components/Appointment/Show";
 import Header from "components/Appointment/Header";
