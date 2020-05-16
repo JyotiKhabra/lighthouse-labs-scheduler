@@ -48,9 +48,6 @@ export default function Application(props) {
     })
     .then(() => {
       setState({...state, appointments});
-    })
-    .catch(error => {
-      console.log(error);
     });
  }
 
@@ -69,9 +66,6 @@ export default function Application(props) {
   })
   .then(() => {
     setState({...state, appointments});
-  })
-  .catch(error => {
-    console.log(error);
   });
  }
 const setDay = day => setState({ ...state, day })
