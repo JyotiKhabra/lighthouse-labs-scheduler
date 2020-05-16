@@ -55,7 +55,6 @@ export default function Application(props) {
  }
 
 
-
  function cancelInterview(id) {
   const appointment = {
     ...state.appointments[id],
@@ -75,12 +74,10 @@ export default function Application(props) {
     console.log(error);
   });
  }
-    
+const setDay = day => setState({ ...state, day })
 
 
-  
-  const setDay = day => setState({ ...state, day })
-  const interviewers = getInterviewersForDay({...state}, state.day);
+const interviewers = getInterviewersForDay({...state}, state.day);
   const appointments = getAppointmentsForDay({...state}, state.day)
    const appointment = appointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
