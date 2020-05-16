@@ -1,75 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "components/Application.scss";
 import Appointment from "components/Appointment/index";
 import DayList from "components/DayList";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
-
-
-const URLs= ['http://localhost:8001/api/days', 'http://localhost:8001/api/appointments', 'http://localhost:8001/api/interviewers']
-function fetchData(URL) {
-  return axios
-    .get(URL)
-    .catch(function(error) {
-      //putting this catch here to prevent promise.all from failing, incase one promise fails.
-      console.log(error)
-  });
-}
+import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
-  
-  useEffect(() => {
-      function getAllData(URLs){
-        return Promise.all(URLs.map(fetchData))
-        .then(response =>{
-          console.log(response) 
-          setState({...state, days: response[0].data, appointments: response[1].data, interviewers: response[2].data});
-      })}
-      getAllData(URLs);
-  },[]) 
-  
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, {
-      ...appointment
-    })
-    .then(() => {
-      setState({...state, appointments});
-    });
- }
-
-
- function cancelInterview(id) {
-  const appointment = {
-    ...state.appointments[id],
-    interview: null
-  };
-  const appointments = {
-    ...state.appointments,
-    [id]: appointment
-  };
-  return axios.delete(`http://localhost:8001/api/appointments/${id}`, {
-    ...appointment
-  })
-  .then(() => {
-    setState({...state, appointments});
-  });
- }
-const setDay = day => setState({ ...state, day })
-
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
 const interviewers = getInterviewersForDay({...state}, state.day);
   const appointments = getAppointmentsForDay({...state}, state.day)
@@ -88,9 +30,6 @@ const interviewers = getInterviewersForDay({...state}, state.day);
             />
           );
         });
-      //console.log("appointments", appointments);
-
-
 
   return (
     <main className="layout">
