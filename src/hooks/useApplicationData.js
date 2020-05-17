@@ -19,6 +19,16 @@ export default function useApplicationData(initial){
       appointments: {},
       interviewers: {}
     });
+
+    useEffect(() => {
+    const socket = new WebSocket("ws://localhost:8001")
+    socket.onopen = function(event) {   
+    socket.send("ping") 
+    }
+    socket.onmessage = function(event) {
+      console.log(event.data);
+    }
+  }, []);
     
     useEffect(() => {
         function getAllData(URLs){

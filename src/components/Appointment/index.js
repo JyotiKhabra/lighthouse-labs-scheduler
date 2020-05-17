@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "components/Appointment/styles.scss";
 import Show from "components/Appointment/Show";
 import Header from "components/Appointment/Header";
@@ -7,10 +7,8 @@ import Form from "components/Appointment/Form";
 import Error from "components/Appointment/Error";
 import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
-
 import useVisualMode from "hooks/useVisualMode";
 
-//const classNames = require('classnames');
 
 
 export default function Appointment(props) {
@@ -44,11 +42,15 @@ export default function Appointment(props) {
       .then(() => transition(EMPTY))
       .catch((error)=> console.log(error));
   }
-  // function editing () {
-  //   transition(EDIT)
-  //   props.editInterview(props.id)
-  //   .then(() => transition(SHOW))
-  // }
+  // useEffect(() => {
+  //   if (props.interview && mode === EMPTY) {
+  //    transition(SHOW);
+  //   }
+  //   if (props.interview === null && mode === SHOW) {
+  //    transition(EMPTY);
+  //   }
+  //  }, [props.interview, transition, mode]);
+
 
 
 
@@ -58,7 +60,7 @@ export default function Appointment(props) {
       <Header
         time={props.time}
       />
-        {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && (
       <Show
       student={props.interview && props.interview.student}
@@ -109,6 +111,4 @@ export default function Appointment(props) {
   )}
 
 
-  // {props.interview ?(  
-  //   <Show   student={props.interview.student}
-  //   name={props.interview.interviewer.name}/>) : (<Empty />)}
+
