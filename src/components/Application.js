@@ -13,12 +13,11 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
-const interviewers = getInterviewersForDay({...state}, state.day);
+  const interviewers = getInterviewersForDay({...state}, state.day);
   const appointments = getAppointmentsForDay({...state}, state.day)
-   const appointment = appointments.map(appointment => {
+  const appointment = appointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
-
-    
+    console.log("interview", interview, "appointmentI", appointment.interview)
         return (
             <Appointment 
               key={appointment.id}

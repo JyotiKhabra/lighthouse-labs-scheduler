@@ -21,15 +21,36 @@ export default function useApplicationData(initial){
     });
 
     useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8001")
-    socket.onopen = function(event) {   
-    socket.send("ping") 
-    }
-    socket.onmessage = function(event) {
-      console.log(event.data);
-    }
-  }, []);
-    
+      const socket = new WebSocket("ws://localhost:8001")
+      socket.onopen = function(event) {   
+        socket.send("ping"); 
+      }
+      socket.onmessage = function(event) {
+        // console.log("state", state);
+        console.log(event.data);
+        let data = JSON.parse(event.data);
+        if(data.type === "SET_INTERVIEW"){
+          console.log("data,", data.interview)
+            setState(prevState => {
+              console.log("prevState", prevState)
+              const appointment = {
+                ...prevState.appointments[data.id],
+                interview: data.interview 
+              };
+              const appointments = {
+                ...prevState.appointments,
+                [data.id]: appointment
+              };
+              const days = remainingSpots(appointments, prevState.days, prevState.day)
+              return {...prevState, appointments, days}
+            })
+          
+        }
+      }
+    }, []);
+    console.log("state", state);
+
+
     useEffect(() => {
         function getAllData(URLs){
           return Promise.all(URLs.map(fetchData))
@@ -49,7 +70,7 @@ export default function useApplicationData(initial){
         ...state.appointments,
         [id]: appointment
       };
-      const days = remainingSpots(appointments)
+      const days = remainingSpots(appointments, state.days, state.day)
     
       return axios.put(`http://localhost:8001/api/appointments/${id}`, {
         ...appointment
@@ -68,7 +89,7 @@ export default function useApplicationData(initial){
       ...state.appointments,
       [id]: appointment
     };
-    const days = remainingSpots(appointments)
+    const days = remainingSpots(appointments, state.days, state.day)
 
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, {
       ...appointment
@@ -79,24 +100,25 @@ export default function useApplicationData(initial){
    }
   const setDay = day => setState({ ...state, day })
 
-  function remainingSpots (appointments){
+  function remainingSpots (appointments, days, day){
     let spotsAvailable = 0 
-    const day = state.days.find(day => day.name === state.day) 
-    let appointment = day.appointments
+    console.log("days", days, day)
+    const thisDay = days.find(d => d.name === day) 
+    let appointment = thisDay.appointments
    for(const app of appointment){
      if(appointments[app].interview === null){ 
       spotsAvailable += 1
     }
   }
-  day.spots = spotsAvailable
-  const index = state.days.findIndex(d => d.name === day.name)
+  thisDay.spots = spotsAvailable
+  const index = days.findIndex(d => d.name === day.name)
  // console.log("index", index )
-  const days = [...state.days];
-  days[index] = day;
+  const thisDays = [...days];
+  thisDays[index] = thisDay;
  // console.log("daysindex", days[index])
 
   
-  return days; 
+  return thisDays; 
 
   } 
  

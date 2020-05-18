@@ -37,19 +37,22 @@ export default function Appointment(props) {
       .catch(()=> transition(ERROR_SAVE, true));
   }
   function deleting() {
-     transition(DELETING, true);
+    transition(DELETING, true);
       props.cancelInterview(props.id)
-      .then(() => transition(EMPTY))
-      .catch((error)=> console.log(error));
+        .then(() => transition(EMPTY))
+        .catch((error)=> console.log(error));
   }
-  // useEffect(() => {
-  //   if (props.interview && mode === EMPTY) {
-  //    transition(SHOW);
-  //   }
-  //   if (props.interview === null && mode === SHOW) {
-  //    transition(EMPTY);
-  //   }
-  //  }, [props.interview, transition, mode]);
+  useEffect(() => {
+    console.log("maybefix?")
+    if (props.interview && mode === EMPTY) {
+      console.log("fix1", props.interview)
+      transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+      console.log("fix2")
+      transition(EMPTY);
+    }
+  }, [props.interview]);
 
 
 
@@ -61,7 +64,7 @@ export default function Appointment(props) {
         time={props.time}
       />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-        {mode === SHOW && (
+        {mode === SHOW && props.interview && ( 
       <Show
       student={props.interview && props.interview.student}
       name={props.interview && props.interview.interviewer.name}    
