@@ -27,12 +27,12 @@ export default function useApplicationData(initial){
       }
       socket.onmessage = function(event) {
         // console.log("state", state);
-        console.log(event.data);
+        //console.log(event.data);
         let data = JSON.parse(event.data);
         if(data.type === "SET_INTERVIEW"){
-          console.log("data,", data.interview)
+          //console.log("data,", data.interview)
             setState(prevState => {
-              console.log("prevState", prevState)
+            //  console.log("prevState", prevState)
               const appointment = {
                 ...prevState.appointments[data.id],
                 interview: data.interview 
