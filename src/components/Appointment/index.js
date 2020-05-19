@@ -43,13 +43,10 @@ export default function Appointment(props) {
         .catch((error)=> console.log(error));
   }
   useEffect(() => {
-    console.log("maybefix?")
     if (props.interview && mode === EMPTY) {
-      console.log("fix1", props.interview)
       transition(SHOW);
     }
     if (props.interview === null && mode === SHOW) {
-      console.log("fix2")
       transition(EMPTY);
     }
   }, [props.interview]);
