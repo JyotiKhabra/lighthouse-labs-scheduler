@@ -18,7 +18,6 @@
     "storybook": "start-storybook -p 9009 -s public --ci",
     "build-storybook": "build-storybook -s public",
     "cypress": "cypress open -P ."
-
   },
   "browserslist": {
     "production": [
@@ -43,6 +42,9 @@
     "@testing-library/react": "^8.0.7",
     "@testing-library/react-hooks": "^3.2.1",
     "babel-loader": "^8.0.5",
+    "eslint": "^7.0.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.20.0",
     "node-sass": "^4.11.0",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.13.1"

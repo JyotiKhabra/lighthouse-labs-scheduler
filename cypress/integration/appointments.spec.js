@@ -1,31 +1,31 @@
 describe("Appointments", () => {
   beforeEach(() => {
-   cy.request("GET", "http://localhost:8001/api/debug/reset");
-   cy.visit("/");
-   cy.contains("Monday");
+    cy.request("GET", "http://localhost:8001/api/debug/reset");
+    cy.visit("/");
+    cy.contains("Monday");
   });
 
   it("should book an interview", () => {
-   cy.get("[alt=Add]")
-    .first()
-    .click();
-   cy.get("[data-testid=student-name-input]").type("Lydia Miller-Jones");
-   cy.get('[alt="Sylvia Palmer"]').click();
-   cy.contains("Save").click();
-   cy.contains(".appointment__card--show", "Lydia Miller-Jones");
-   cy.contains(".appointment__card--show", "Sylvia Palmer");
+    cy.get("[alt=Add]")
+        .first()
+        .click();
+    cy.get("[data-testid=student-name-input]").type("Lydia Miller-Jones");
+    cy.get('[alt="Sylvia Palmer"]').click();
+    cy.contains("Save").click();
+    cy.contains(".appointment__card--show", "Lydia Miller-Jones");
+    cy.contains(".appointment__card--show", "Sylvia Palmer");
   });
 
   beforeEach(() => {
     cy.request("GET", "http://localhost:8001/api/debug/reset");
     cy.visit("/");
     cy.contains("Monday");
-   });
+  });
 
-   it("should edit an interview", () => {
+  it("should edit an interview", () => {
     cy.get("[alt=Edit]")
-      .first()
-      .click({ force: true });
+        .first()
+        .click({ force: true });
     cy.get("[data-testid=student-name-input]").clear().type("Lydia Miller-Jones");
     cy.get("[alt='Tori Malcolm']").click();
     cy.contains("Save").click();
@@ -37,14 +37,14 @@ describe("Appointments", () => {
     cy.request("GET", "http://localhost:8001/api/debug/reset");
     cy.visit("/");
     cy.contains("Monday");
-   });
+  });
   it("should cancel an interview", () => {
     cy.get("[alt=Delete]")
-      .click({ force: true });
+        .click({ force: true });
     cy.contains("Confirm").click();
     cy.contains("DELETING").should("exist");
     cy.contains("DELETING").should("not.exist");
     cy.contains(".appointment__card--show", "Archie Cohen")
-      .should("not.exist");
+        .should("not.exist");
   });
 });

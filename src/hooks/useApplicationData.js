@@ -53,7 +53,6 @@ export default function useApplicationData(initial){
         function getAllData(URLs){
           return Promise.all(URLs.map(fetchData))
           .then(response =>{
-           // console.log(response) 
             setState({...state, 
               days: response[0].data, 
               appointments: response[1].data, 
@@ -103,7 +102,6 @@ export default function useApplicationData(initial){
 
   function remainingSpots (appointments, days, day){
     let spotsAvailable = 0 
-    //console.log("days", days, day)
     const thisDay = days.find(d => d.name === day) 
     let appointment = thisDay.appointments
    for(const app of appointment){
@@ -113,10 +111,8 @@ export default function useApplicationData(initial){
   }
   thisDay.spots = spotsAvailable
   const index = days.findIndex(d => d.name === day.name)
- // console.log("index", index )
   const thisDays = [...days];
   thisDays[index] = thisDay;
- // console.log("daysindex", days[index])
 
   
   return thisDays; 
