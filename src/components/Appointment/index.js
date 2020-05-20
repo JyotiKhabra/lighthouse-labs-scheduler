@@ -56,19 +56,19 @@ export default function Appointment(props) {
 
   return (
     
-    <article className="appointment">
+    <article className="appointment"  data-testid="appointment">
       <Header
         time={props.time}
-      />
+        />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && props.interview && ( 
-      <Show
-      student={props.interview && props.interview.student}
-      name={props.interview && props.interview.interviewer.name}    
-      onDelete={() => transition(CONFIRM)}
-      onEdit={() => transition(EDIT)}    
-      />
-    )}
+          <Show
+          student={props.interview && props.interview.student}
+          name={props.interview && props.interview.interviewer.name}    
+          onDelete={() => transition(CONFIRM)}
+          onEdit={() => transition(EDIT)}    
+          />
+          )}
      {mode === CREATE && (
        <Form 
        interviewers={props.interviewers}
@@ -76,7 +76,7 @@ export default function Appointment(props) {
        onSave={save}
        />
        
-     )}
+       )}
       {mode === SAVING && <Status message="SAVING" />}
       {mode === CONFIRM && 
       <Confirm
@@ -93,22 +93,21 @@ export default function Appointment(props) {
         onCancel={() => back()} 
         onSave={save}
         />
-      )}
+        )}
      {mode === ERROR_DELETE && (
-        <Error
-        onClose={() => back()}
-        message="Error! Could not cancel the appointment" />
-      )}
+       <Error
+       onClose={() => back()}
+       message="Error! Could not cancel the appointment" />
+       )}
 
       {mode === ERROR_SAVE && (
         <Error
         onClose={() => back()}
         message="Error! Could not save the appointment" />
-      )} 
+        )} 
 
-   
     </article>
   )}
-
+  
 
 
