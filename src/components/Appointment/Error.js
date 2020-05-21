@@ -2,7 +2,7 @@ import React from "react";
 import "components/Appointment/styles.scss";
 //const classNames = require('classnames');
 
-
+//the error messages page, when you arent able to correctly save or delete appointments
 export default function Error(props) {
   return (
     <main className="appointment__card appointment__card--error">

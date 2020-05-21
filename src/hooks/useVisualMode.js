@@ -2,11 +2,12 @@ import { useState } from "react";
 
 export default function useVisualMode(initial){
   const [history, setHistory] = useState([initial]);
-  
+
   const back = () => {
    if(history.length < 2){
-    return; 
+    return;
    };
+   //prev is for setting the previous state
     setHistory(prev => [...prev.slice(0, prev.length -1)]);
   }
 

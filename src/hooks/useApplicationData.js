@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-axios.defaults.baseURL = 'http://localhost:8001'
+axios.defaults.baseURL = 'http://localhost:8001';
 export default function useApplicationData(initial){
 
   const URLs= [
-    '/api/days', 
-    '/api/appointments', 
+    '/api/days',
+    '/api/appointments',
     '/api/interviewers']
   function fetchData(URL) {
     return axios
@@ -15,7 +15,7 @@ export default function useApplicationData(initial){
         console.log(error)
     });
   }
-  
+
     const [state, setState] = useState({
       day: "Monday",
       days: [],
@@ -23,10 +23,11 @@ export default function useApplicationData(initial){
       interviewers: {}
     });
 
+//websocket functionality
     useEffect(() => {
-      const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL)
-      socket.onopen = function(event) {   
-        socket.send("ping"); 
+      const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL) 
+      socket.onopen = function(event) {
+        socket.send("ping");
       }
       socket.onmessage = function(event) {
         let data = JSON.parse(event.data);
@@ -34,7 +35,7 @@ export default function useApplicationData(initial){
             setState(prevState => {
               const appointment = {
                 ...prevState.appointments[data.id],
-                interview: data.interview 
+                interview: data.interview
               };
               const appointments = {
                 ...prevState.appointments,
@@ -43,24 +44,25 @@ export default function useApplicationData(initial){
               const days = remainingSpots(appointments, prevState.days, prevState.day)
               return {...prevState, appointments, days}
             })
-          
+
         }
       }
     }, []);
 
-
+    //for fetching data from the api
     useEffect(() => {
         function getAllData(URLs){
           return Promise.all(URLs.map(fetchData))
           .then(response =>{
-            setState({...state, 
-              days: response[0].data, 
-              appointments: response[1].data, 
+            setState({...state,
+              days: response[0].data,
+              appointments: response[1].data,
               interviewers: response[2].data});
         })}
         getAllData(URLs);
-    },[]) 
-    
+    },[])
+
+//function for booking an interview
     function bookInterview(id, interview) {
       const appointment = {
         ...state.appointments[id],
@@ -71,7 +73,7 @@ export default function useApplicationData(initial){
         [id]: appointment
       };
       const days = remainingSpots(appointments, state.days, state.day)
-    
+
       return axios.put(`/api/appointments/${id}`, {
         ...appointment
       })
@@ -79,7 +81,7 @@ export default function useApplicationData(initial){
         setState({...state, appointments, days})
       })
    }
-  
+//function for canceling an interview
    function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],
@@ -95,30 +97,30 @@ export default function useApplicationData(initial){
       ...appointment
     })
     .then(() => {
-      setState({...state, appointment, days});
+      setState ({...state, appointment, days});
     });
    }
-  const setDay = day => setState({ ...state, day })
+  const setDay = day => setState ({ ...state, day })
 
+ //spots updating function for spots remaining
   function remainingSpots (appointments, days, day){
-    let spotsAvailable = 0 
-    const thisDay = days.find(d => d.name === day) 
+    let spotsAvailable = 0
+    const thisDay = days.find(d => d.name === day)
     let appointment = thisDay.appointments
    for(const app of appointment){
-     if(appointments[app].interview === null){ 
+     if(appointments[app].interview === null){
       spotsAvailable += 1
-    }
-  }
+    };
+  };
   thisDay.spots = spotsAvailable
   const index = days.findIndex(d => d.name === day.name)
   const thisDays = [...days];
   thisDays[index] = thisDay;
 
-  
-  return thisDays; 
+  return thisDays;
 
-  } 
- 
-  
-  return{ state, setDay, bookInterview, cancelInterview };
-}
+  };
+
+
+  return { state, setDay, bookInterview, cancelInterview };
+};

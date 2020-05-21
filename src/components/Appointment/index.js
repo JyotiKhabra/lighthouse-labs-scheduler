@@ -36,12 +36,14 @@ export default function Appointment(props) {
       .then(() => transition(SHOW))
       .catch(()=> transition(ERROR_SAVE, true));
   }
+  
   function deleting() {
     transition(DELETING, true);
       props.cancelInterview(props.id)
         .then(() => transition(EMPTY))
         .catch((error)=> console.log(error));
   }
+  // was created for the websockets
   useEffect(() => {
     if (props.interview && mode === EMPTY) {
       transition(SHOW);
@@ -55,34 +57,34 @@ export default function Appointment(props) {
 
 
   return (
-    
+
     <article className="appointment"  data-testid="appointment">
       <Header
         time={props.time}
         />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-        {mode === SHOW && props.interview && ( 
+        {mode === SHOW && props.interview && (
           <Show
           student={props.interview && props.interview.student}
-          name={props.interview && props.interview.interviewer.name}    
+          name={props.interview && props.interview.interviewer.name}
           onDelete={() => transition(CONFIRM)}
-          onEdit={() => transition(EDIT)}    
+          onEdit={() => transition(EDIT)}
           />
           )}
      {mode === CREATE && (
-       <Form 
+       <Form
        interviewers={props.interviewers}
        onCancel={() => back(EMPTY)}
        onSave={save}
        />
-       
+
        )}
       {mode === SAVING && <Status message="SAVING" />}
-      {mode === CONFIRM && 
+      {mode === CONFIRM &&
       <Confirm
-      message="Are you sure you want to delete?" 
+      message="Are you sure you want to delete?"
       onCancel={() => back(EMPTY)}
-      onConfirm={deleting}    
+      onConfirm={deleting}
       />}
       {mode === DELETING &&  <Status message="DELETING" />}
       {mode === EDIT && (
@@ -90,7 +92,7 @@ export default function Appointment(props) {
         interviewer={props.interview.interviewer.id}
         interviewers={props.interviewers}
         name={props.interview.student}
-        onCancel={() => back()} 
+        onCancel={() => back()}
         onSave={save}
         />
         )}
@@ -104,10 +106,10 @@ export default function Appointment(props) {
         <Error
         onClose={() => back()}
         message="Error! Could not save the appointment" />
-        )} 
+        )}
 
     </article>
   )}
-  
+
 
 

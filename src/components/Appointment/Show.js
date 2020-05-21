@@ -1,8 +1,7 @@
 import React from "react";
 import "components/Appointment/styles.scss";
-//const classNames = require('classnames');
 
-
+//what you will see when the appointment is booked 
 export default function Show(props) {
   return (
     <main className="appointment__card appointment__card--show">

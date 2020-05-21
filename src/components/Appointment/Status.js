@@ -2,7 +2,7 @@ import React from "react";
 import "components/Appointment/styles.scss";
 //const classNames = require('classnames');
 
-
+//page for saving and deleting loading image 
 export default function Status(props) {
   return (
     <main className="appointment__card appointment__card--status">

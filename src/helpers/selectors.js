@@ -1,7 +1,7 @@
+//helperfunctions that will be passed into index.js for helping to retreive, appointsments, interview and interviewers
 //returns an array of appointments
-export function getAppointmentsForDay(state, day) { 
+export function getAppointmentsForDay(state, day) {
   const filteredDays = state.days.filter(days => days.name === day);
-  //console.log("filtereddays", filteredDays)
   let appointment = [];
   if (!appointment){
     return null;
@@ -11,7 +11,7 @@ export function getAppointmentsForDay(state, day) {
  return appointment;
 };
 
-export function getInterview(state, interview) { 
+export function getInterview(state, interview) {
   if (!interview) {
     return null;
   }else {
@@ -19,14 +19,14 @@ export function getInterview(state, interview) {
     const interviewer = state.interviewers[interview.interviewer];
     let interviews = { interviewer, student };
     return interviews;
-  } 
+  }
 }
 
-export function getInterviewersForDay(state, day) { 
+export function getInterviewersForDay(state, day) {
   const filteredDays = state.days.filter(days => days.name === day);
   if (!filteredDays){
     return [];
-  }  
+  }
   let interview = [];
   if(filteredDays.length){
   interview = filteredDays[0].interviewers.map(id => state.interviewers[id]);

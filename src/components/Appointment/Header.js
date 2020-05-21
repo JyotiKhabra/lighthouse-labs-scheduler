@@ -1,8 +1,7 @@
 import React from "react";
 import "components/Appointment/styles.scss";
-//const classNames = require('classnames');
 
-
+//header with time of appointment 
 export default function Header(props) {
   return (
     <header className="appointment__time">

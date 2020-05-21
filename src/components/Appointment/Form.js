@@ -3,8 +3,7 @@ import "components/Appointment/styles.scss";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 
-//const classNames = require('classnames');
-
+//page for creating an appoinment
 
 export default function Form(props) {
   const [name, setName] = useState(props.name || "");
@@ -15,11 +14,12 @@ export default function Form(props) {
     setName("");
     setInterviewer(null);
   }
+  //function that will be passed to onclick for cancel
   function cancel(){
     reset();
     props.onCancel();
   }
-
+//function that will be passed to onclick for save
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");
@@ -32,7 +32,7 @@ export default function Form(props) {
     setError("");
     props.onSave(name, interviewer);
   }
-  
+
   return (
     <main className="appointment__card appointment__card--create">
   <section className="appointment__card-left">
