@@ -6,9 +6,9 @@ I was able to take to achieve some personal firsts during this project. Along wi
 
 ## Final Product
 
-!["Empty Spot"]()
-!["Booking Form"]()
-!["Deleting"]()
+!["Empty Spot"](https://github.com/JyotiKhabra/lighthouse-labs-schecduler/blob/master/Images/blank-page.png)
+!["Booking Form"](https://github.com/JyotiKhabra/lighthouse-labs-schecduler/blob/master/Images/create-appointment.png)
+!["Deleting"](https://github.com/JyotiKhabra/lighthouse-labs-schecduler/blob/master/Images/delete-appointment.png)
 
 
 ## Dependencies
